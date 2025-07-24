@@ -36,7 +36,11 @@ export default function Dashboard() {
   });
 
   const recentDocuments = documents
-    .sort((a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime())
+    .sort((a, b) => {
+      const aDate = a.updatedAt || a.createdAt || new Date();
+      const bDate = b.updatedAt || b.createdAt || new Date();
+      return new Date(bDate).getTime() - new Date(aDate).getTime();
+    })
     .slice(0, 3);
 
   const handleStartChat = (agentType: AgentType) => {

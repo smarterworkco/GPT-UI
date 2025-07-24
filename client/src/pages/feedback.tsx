@@ -237,7 +237,7 @@ export default function Feedback() {
                       </div>
                     </div>
                     <span className="text-xs text-gray-500 ml-4">
-                      {new Date(request.createdAt).toLocaleDateString()}
+                      {new Date(request.createdAt || new Date()).toLocaleDateString()}
                     </span>
                   </div>
                 </CardContent>

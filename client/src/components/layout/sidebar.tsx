@@ -82,9 +82,9 @@ export function Sidebar() {
             return (
               <li key={item.name}>
                 <Link href={item.href}>
-                  <a
+                  <div
                     className={cn(
-                      "group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                      "group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer",
                       item.current
                         ? "bg-sidebar-accent text-sidebar-accent-foreground"
                         : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
@@ -97,7 +97,7 @@ export function Sidebar() {
                       )}
                     />
                     {item.name}
-                  </a>
+                  </div>
                 </Link>
               </li>
             );

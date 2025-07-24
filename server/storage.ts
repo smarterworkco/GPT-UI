@@ -162,7 +162,15 @@ export class MemStorage implements IStorage {
   }
 
   async createBusiness(business: InsertBusiness & { userId: number }): Promise<Business> {
-    const newBusiness: Business = { ...business, id: this.currentBusinessId++ };
+    const newBusiness: Business = { 
+      ...business, 
+      id: this.currentBusinessId++,
+      description: business.description || null,
+      industry: business.industry || null,
+      logoUrl: business.logoUrl || null,
+      primaryColor: business.primaryColor || "#4F46E5",
+      accentColor: business.accentColor || "#F59E0B"
+    };
     this.businesses.set(newBusiness.id, newBusiness);
     return newBusiness;
   }
@@ -189,6 +197,9 @@ export class MemStorage implements IStorage {
     const newDocument: Document = {
       ...document,
       id: this.currentDocumentId++,
+      description: document.description || null,
+      fileUrl: document.fileUrl || null,
+      tags: document.tags || null,
       createdAt: new Date(),
       updatedAt: new Date()
     };

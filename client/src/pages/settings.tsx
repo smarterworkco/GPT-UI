@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,7 +44,7 @@ export default function Settings() {
   });
 
   // Update form when business data loads
-  React.useEffect(() => {
+  useEffect(() => {
     if (business) {
       form.reset({
         name: business.name,
@@ -144,7 +144,7 @@ export default function Settings() {
                   <div>
                     <Label htmlFor="industry">Industry</Label>
                     <Select 
-                      value={form.watch("industry")} 
+                      value={form.watch("industry") || ""} 
                       onValueChange={(value) => form.setValue("industry", value)}
                     >
                       <SelectTrigger>
@@ -228,12 +228,12 @@ export default function Settings() {
                   <div className="flex items-center gap-4 mt-2">
                     <input
                       type="color"
-                      value={form.watch("primaryColor")}
+                      value={form.watch("primaryColor") || "#4F46E5"}
                       onChange={(e) => form.setValue("primaryColor", e.target.value)}
                       className="w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
                     />
                     <Input
-                      value={form.watch("primaryColor")}
+                      value={form.watch("primaryColor") || "#4F46E5"}
                       onChange={(e) => form.setValue("primaryColor", e.target.value)}
                       placeholder="#4F46E5"
                       className="flex-1"
@@ -246,12 +246,12 @@ export default function Settings() {
                   <div className="flex items-center gap-4 mt-2">
                     <input
                       type="color"
-                      value={form.watch("accentColor")}
+                      value={form.watch("accentColor") || "#F59E0B"}
                       onChange={(e) => form.setValue("accentColor", e.target.value)}
                       className="w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
                     />
                     <Input
-                      value={form.watch("accentColor")}
+                      value={form.watch("accentColor") || "#F59E0B"}
                       onChange={(e) => form.setValue("accentColor", e.target.value)}
                       placeholder="#F59E0B"
                       className="flex-1"

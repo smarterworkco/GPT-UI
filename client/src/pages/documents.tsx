@@ -130,7 +130,7 @@ export default function Documents() {
               
               <div className="flex items-center text-sm text-gray-500 mb-4">
                 <span>
-                  Updated {new Date(document.updatedAt || document.createdAt).toLocaleDateString()}
+                  Updated {new Date(document.updatedAt || document.createdAt || new Date()).toLocaleDateString()}
                 </span>
                 <span className="mx-2">•</span>
                 <span>{document.tags?.length || 0} tags</span>
