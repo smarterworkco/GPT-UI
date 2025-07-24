@@ -11,6 +11,10 @@ import Documents from "@/pages/documents";
 import Feedback from "@/pages/feedback";
 import Settings from "@/pages/settings";
 import NotFound from "@/pages/not-found";
+import Login from "./components/Login";
+import { AuthProvider } from "./lib/useAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
+// 👈 ADDED this import
 
 function Router() {
   return (
@@ -18,11 +22,47 @@ function Router() {
       <Sidebar />
       <main className="flex-1 overflow-auto">
         <Switch>
-          <Route path="/" component={Dashboard} />
-          <Route path="/agents" component={AIAgents} />
-          <Route path="/documents" component={Documents} />
-          <Route path="/feedback" component={Feedback} />
-          <Route path="/settings" component={Settings} />
+          <Route
+            path="/"
+            component={() => (
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="/agents"
+            component={() => (
+              <ProtectedRoute>
+                <AIAgents />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="/documents"
+            component={() => (
+              <ProtectedRoute>
+                <Documents />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="/feedback"
+            component={() => (
+              <ProtectedRoute>
+                <Feedback />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="/settings"
+            component={() => (
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            )}
+          />
+          <Route path="/login" component={Login} /> {/* 👈 ADDED this route */}
           <Route component={NotFound} />
         </Switch>
       </main>
@@ -36,7 +76,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Router />
+        <AuthProvider>
+          {" "}
+          {/* 👈 Add this */}
+          <Router />
+        </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

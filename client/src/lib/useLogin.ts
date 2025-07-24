@@ -1,3 +1,4 @@
+// client/lib/useLogin.ts
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
 
