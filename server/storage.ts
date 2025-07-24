@@ -66,6 +66,7 @@ export class MemStorage implements IStorage {
     const demoUser: User = {
       id: 1,
       username: "brad",
+      email: "brad@businesssystems.com",
       password: "demo123"
     };
     this.users.set(1, demoUser);
@@ -200,6 +201,7 @@ export class MemStorage implements IStorage {
       description: document.description || null,
       fileUrl: document.fileUrl || null,
       tags: document.tags || null,
+      status: document.status || "draft",
       createdAt: new Date(),
       updatedAt: new Date()
     };

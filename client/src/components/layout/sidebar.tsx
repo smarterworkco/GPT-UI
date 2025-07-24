@@ -118,7 +118,7 @@ export function Sidebar() {
               {user?.username || "brad"}
             </p>
             <p className="text-xs text-gray-600">
-              brad@businesssystems.com
+              {user?.email || "user@business.com"}
             </p>
           </div>
         </div>
