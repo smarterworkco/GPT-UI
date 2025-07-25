@@ -62,11 +62,25 @@ app.use((req, res, next) => {
   }
 
   const port = parseInt(process.env.PORT || "5000", 10);
+  
+  // Handle port already in use
+  server.on('error', (err: any) => {
+    if (err.code === 'EADDRINUSE') {
+      log(`Port ${port} is already in use, trying next available port...`);
+      server.listen(0, "0.0.0.0", () => {
+        const address = server.address();
+        const actualPort = typeof address === 'string' ? port : address?.port || port;
+        log(`serving on port ${actualPort}`);
+      });
+    } else {
+      throw err;
+    }
+  });
+
   server.listen(
     {
       port,
       host: "0.0.0.0",
-      reusePort: true,
     },
     () => {
       log(`serving on port ${port}`);
