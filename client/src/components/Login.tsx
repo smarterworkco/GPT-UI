@@ -1,12 +1,14 @@
 // components/Login.tsx
 import { useState } from "react";
 import { loginUser } from "../lib/useLogin";
+import { useLocation } from "wouter";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [, setLocation] = useLocation();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,7 +17,7 @@ export default function Login() {
 
     try {
       await loginUser(email, password);
-      alert("Login successful!");
+      setLocation("/");
     } catch (err: any) {
       setError(err.message);
     } finally {

@@ -6,14 +6,18 @@ import {
   FileText, 
   MessageSquare, 
   Settings,
-  Brain
+  Brain,
+  LogOut
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Business, User } from "@shared/schema";
+import { useAuth } from "@/lib/useAuth";
+import { Button } from "@/components/ui/button";
 
 export function Sidebar() {
   const [location] = useLocation();
-  
+  const { logout, user: authUser } = useAuth();
+
   const { data: user } = useQuery<User>({
     queryKey: ["/api/user"]
   });
@@ -105,22 +109,20 @@ export function Sidebar() {
         </ul>
       </nav>
 
-      {/* User Profile */}
-      <div className="border-t border-gray-200 p-4">
-        <div className="flex items-center">
-          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-            <span className="text-sm font-medium text-primary-foreground">
-              {user?.username?.charAt(0).toUpperCase() || "B"}
-            </span>
-          </div>
-          <div className="ml-3">
+      {/* User Profile with Logout */}
+      <div className="mt-auto border-t px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div>
             <p className="text-sm font-medium text-gray-900">
-              {user?.username || "brad"}
+              {authUser?.displayName || user?.username || "User"}
             </p>
-            <p className="text-xs text-gray-600">
-              {user?.email || "user@business.com"}
+            <p className="text-xs text-gray-500">
+              {authUser?.email || user?.email || "user@business.com"}
             </p>
           </div>
+          <Button variant="ghost" size="icon" onClick={logout}>
+            <LogOut className="h-5 w-5 text-gray-500" />
+          </Button>
         </div>
       </div>
     </div>
