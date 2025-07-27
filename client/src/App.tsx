@@ -14,7 +14,7 @@ import NotFound from "@/pages/not-found";
 import Login from "./components/Login";
 import { AuthProvider } from "./lib/useAuth";
 import ProtectedRoute from "./components/ProtectedRoute";
-// 👈 ADDED this import
+import AgentChat from "@/pages/agent-chat";
 
 function Router() {
   return (
@@ -35,6 +35,14 @@ function Router() {
             component={() => (
               <ProtectedRoute>
                 <AIAgents />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="/chat"
+            component={() => (
+              <ProtectedRoute>
+                <AgentChat />
               </ProtectedRoute>
             )}
           />
@@ -62,7 +70,7 @@ function Router() {
               </ProtectedRoute>
             )}
           />
-          <Route path="/login" component={Login} /> {/* 👈 ADDED this route */}
+          <Route path="/login" component={Login} />
           <Route component={NotFound} />
         </Switch>
       </main>
@@ -77,8 +85,6 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <AuthProvider>
-          {" "}
-          {/* 👈 Add this */}
           <Router />
         </AuthProvider>
       </TooltipProvider>

@@ -3,16 +3,20 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 import feedbackRoutes from "./routes/feedback";
+import askAgentRoutes from "./routes/ask-agent";
+import chatRoutes from "./routes/chat";
 
-const app = express(); // ✅ MUST come before using `app`
+const app = express(); // ✅ moved above all .use() calls
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// ✅ Add your custom API routes here
+// ✅ Register your custom API routes here
 app.use("/api/feedback", feedbackRoutes);
+app.use("/api/ask-agent", askAgentRoutes);
+app.use("/api/chat", chatRoutes);
 
-// Middleware to log API responses
+// ✅ Logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -54,7 +58,7 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // 🛠 Vite dev mode support
+  // 🛠 Development mode support
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
@@ -62,28 +66,14 @@ app.use((req, res, next) => {
   }
 
   const port = parseInt(process.env.PORT || "5000", 10);
-  
-  // Handle port already in use
-  server.on('error', (err: any) => {
-    if (err.code === 'EADDRINUSE') {
-      log(`Port ${port} is already in use, trying next available port...`);
-      server.listen(0, "0.0.0.0", () => {
-        const address = server.address();
-        const actualPort = typeof address === 'string' ? port : address?.port || port;
-        log(`serving on port ${actualPort}`);
-      });
-    } else {
-      throw err;
-    }
-  });
-
   server.listen(
     {
       port,
       host: "0.0.0.0",
+      reusePort: true,
     },
     () => {
       log(`serving on port ${port}`);
-    }
+    },
   );
 })();

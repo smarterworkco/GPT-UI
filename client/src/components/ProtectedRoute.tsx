@@ -8,13 +8,16 @@ export default function ProtectedRoute({
 }) {
   const { user, loading } = useAuth();
 
-  console.log("🔐 ProtectedRoute check →", { loading, user });
-
-  if (loading) return <div className="p-4">Loading auth...</div>;
+  if (loading) {
+    console.log("[ProtectedRoute] Waiting on loading...");
+    return null; // or a spinner
+  }
 
   if (!user) {
+    console.log("[ProtectedRoute] No user. Redirecting to /login...");
     return <Redirect to="/login" />;
   }
 
+  console.log("[ProtectedRoute] Authenticated user:", user.email);
   return <>{children}</>;
 }
